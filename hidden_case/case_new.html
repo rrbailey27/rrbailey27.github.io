@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UVA in Argentina | Video Application</title>
+
+  <!-- Fonts (optional: if blocked, the page falls back to system fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================
+       EDIT HERE FIRST: colors, fonts, and widths for the whole page
+       ========================================================== */
+    :root {
+      --malbec:      #6B1F3A;   /* main accent: headings, buttons, links */
+      --malbec-dark: #4E1329;   /* button hover */
+      --sky:         #E6EEF6;   /* soft blue panels */
+      --ink:         #1B2230;   /* body text */
+      --muted:       #5A6577;   /* secondary text */
+      --line:        #D9DFE8;   /* borders and dividers */
+      --page:        #F7F9FC;   /* page background */
+      --white:       #FFFFFF;
+
+      --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+      --font-body:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+      --content-width: 720px;   /* width of the reading column */
+      --wide-width:    1080px;  /* width of the hero */
+    }
+
+    /* ==========================================================
+       BASE STYLES (rarely need changes)
+       ========================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 1.0625rem;      /* 17px */
+      line-height: 1.65;
+      color: var(--ink);
+      background: var(--page);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--malbec);
+      margin: 0 0 0.6em;
+    }
+    h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); letter-spacing: -0.01em; }
+    h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+    h3 { font-size: 1.25rem; color: var(--ink); }
+
+    p  { margin: 0 0 1.1em; }
+    a  { color: var(--malbec); }
+
+    img { max-width: 100%; height: auto; display: block; }
+
+    a:focus-visible, .button:focus-visible {
+      outline: 3px solid #E57200;
+      outline-offset: 3px;
+    }
+
+    /* ==========================================================
+       LAYOUT HELPERS
+       ========================================================== */
+    .wrap {
+      width: min(100% - 2.5rem, var(--content-width));
+      margin-inline: auto;
+    }
+    .wrap-wide {
+      width: min(100% - 2.5rem, var(--wide-width));
+      margin-inline: auto;
+    }
+    section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+
+    /* ==========================================================
+       HERO (title + intro + photo)
+       ========================================================== */
+    .hero {
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      padding-block: clamp(2.5rem, 7vw, 5rem);
+    }
+    .hero-grid {
+      display: grid;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .hero .lead { color: var(--muted); font-size: 1.15rem; }
+    .hero img {
+      border-radius: 14px;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    /* The key ask, highlighted */
+    .callout {
+      background: var(--sky);
+      border-left: 4px solid var(--malbec);
+      padding: 1rem 1.25rem;
+      border-radius: 0 10px 10px 0;
+      margin-top: 1.5rem;
+      font-weight: 500;
+    }
+    .callout p { margin: 0; }
+
+    @media (min-width: 860px) {
+      .hero-grid { grid-template-columns: 1.15fr 1fr; gap: 3.5rem; }
+    }
+
+    /* ==========================================================
+       THE CASE
+       ========================================================== */
+    .case { background: var(--page); }
+
+    /* The winery CEO's words */
+    blockquote {
+      margin: 1.75rem 0;
+      padding: 0 0 0 1.25rem;
+      border-left: 3px solid var(--malbec);
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+    blockquote p { margin: 0 0 0.9em; }
+    blockquote p:last-child { margin-bottom: 0; }
+
+    /* ==========================================================
+       QUESTIONS
+       ========================================================== */
+    .questions { background: var(--white); border-block: 1px solid var(--line); }
+
+    .question-list {
+      margin: 1.25rem 0 2rem;
+      padding-left: 1.25rem;
+    }
+    .question-list li { margin-bottom: 0.5rem; }
+
+    .personal {
+      background: var(--sky);
+      border-radius: 14px;
+      padding: clamp(1.25rem, 4vw, 2rem);
+    }
+    .personal ul { margin: 0; padding-left: 1.25rem; }
+    .personal li { margin-bottom: 1rem; }
+    .personal li:last-child { margin-bottom: 0; }
+    .personal strong { display: block; margin-bottom: 0.15rem; }
+
+    /* ==========================================================
+       VIDEO DETAILS + SUBMIT
+       ========================================================== */
+    .details dl {
+      margin: 1.25rem 0 2rem;
+      border-top: 1px solid var(--line);
+    }
+    .details .row {
+      display: grid;
+      gap: 0.25rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .details dt { font-weight: 600; }
+    .details dd { margin: 0; color: var(--muted); }
+    .details code {
+      background: var(--sky);
+      padding: 0.1em 0.4em;
+      border-radius: 5px;
+      font-size: 0.95em;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+    }
+    @media (min-width: 640px) {
+      .details .row { grid-template-columns: 170px 1fr; gap: 1.5rem; }
+    }
+
+    .button {
+      display: inline-block;
+      background: var(--malbec);
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.9rem 1.75rem;
+      border-radius: 999px;
+      transition: background 0.2s ease;
+    }
+    .button:hover { background: var(--malbec-dark); }
+
+    @media (max-width: 480px) {
+      .button { display: block; text-align: center; }
+    }
+
+    footer {
+      padding-block: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .button { transition: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================================
+       HERO: title, welcome text, and image
+       To change the photo, replace the src below.
+       ========================================================== -->
+  <header class="hero">
+    <div class="wrap-wide hero-grid">
+      <div>
+        <h1>UVA in Argentina Video Application</h1>
+        <p class="lead">
+          Thank you for your interest in the UVA in Argentina Global Technology Consulting program.
+          We are very excited to bring many of you to Mendoza to experience international consulting in an authentic setting.
+        </p>
+        <p>
+          This is a very popular class, with many more applicants than the 30 available spots.
+          We constantly struggle to be fair in our selection, so this year we are using video to supplement the
+          written entries in your UVA online application. We want to see and hear straight from you.
+        </p>
+
+        <div class="callout">
+          <p>Make a 3-minute video where you respond to a case and tell us more directly why you are interested in the Argentina program.</p>
+        </div>
+      </div>
+
+      <img src="images/winery.tasting.png" alt="Winery tasting room">
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ==========================================================
+         THE CASE
+         ========================================================== -->
+    <section class="case">
+      <div class="wrap">
+        <h2>The Case</h2>
+
+        <p>
+          You made it! You were selected to go to Mendoza, and after a long flight you landed in this beautiful country.
+          It is Monday morning, and you and your team of five UVA colleagues have just reached the premises of your
+          Argentine client: a gorgeous boutique winery just south of the city. After a few employees offer you strong
+          coffee and warm croissants, the CEO and owner of the winery appears.
+        </p>
+
+        <blockquote>
+          <p>"Welcome to Mendoza! We are glad that you will spend a few days with us and help us run a better business operation!"</p>
+          <p>"We are proud of our business. We have been very successful: our growth is strong. We export our products to many countries, including in North America, Europe, and Asia. People come from very far away to visit our vineyard and taste our wines."</p>
+          <p>"Soon we will give you the tour of our facility, but first I want to mention one issue that has been a concern of mine for a while. I seem to be constantly buying wine tasting glasses for our tasting room: every other week I need to buy a couple of cases of those glasses. They are not very expensive, just one or two dollars each, yet these costs pile up."</p>
+          <p>"The winemaker says that it is the waiters that break them all the time; the cook tells me that our dishwasher breaks them because the water pressure is too strong... I think that these glasses walk out of our tasting room with the guests... and do not come back. We have such a lovely patio for our wine tasting events: a stunning view of the Andes, our vineyards, the blue Argentine sky... the perfect complement for our excellent Malbec! Dozens and dozens of people visit us every day from many countries and enjoy our products."</p>
+        </blockquote>
+
+        <p>
+          Her phone rang. "Oh! Excuse me..." said the executive, and walked out of the room to take a call from a client,
+          an international wine importer. You are left in the room with your team, wondering what your next step will be...
+        </p>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         QUESTIONS FOR THE VIDEO
+         ========================================================== -->
+    <section class="questions">
+      <div class="wrap">
+        <h2>The questions to address in your video</h2>
+
+        <p>
+          We are interested in what you would do next. You have your team, full access to the facilities and personnel,
+          and two weeks. How would you proceed?
+        </p>
+
+        <ul class="question-list">
+          <li>There are so many competing hypotheses. Who is right? Anyone?</li>
+          <li>What would you do to find a solution?</li>
+          <li>What is your recommended solution?</li>
+          <li>How would you know if it works well?</li>
+        </ul>
+
+        <div class="personal">
+          <h3>Unrelated to the case</h3>
+          <ul>
+            <li>
+              <strong>Why do you want to be on this program?</strong>
+              What about it is attractive to you? Open up and don't hold back. Let us know how you feel and what this means to you. Make it personal.
+            </li>
+            <li>
+              <strong>How is your Spanish?</strong>
+              Tell us if you feel you know enough Spanish to be "the" Spanish point person for your team. That includes
+              interviews, correspondence, and maybe the final presentation. This is definitely not a required skill. No Spanish is required to be on this program!
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         VIDEO DETAILS + SUBMIT LINK
+         To change the upload link, edit the href on the button.
+         ========================================================== -->
+    <section class="details">
+      <div class="wrap">
+        <h2>Video details</h2>
+
+        <dl>
+          <div class="row">
+            <dt>Length</dt>
+            <dd>3 minutes maximum. Spend most of this time on the case.</dd>
+          </div>
+          <div class="row">
+            <dt>File name</dt>
+            <dd><code>lastname.firstname.mp4</code></dd>
+          </div>
+          <div class="row">
+            <dt>Uploading</dt>
+            <dd>On a slow connection, the upload might take a while, so be patient. When it succeeds, Box will give you clear visual feedback. Wait for that. If you don't see it, something may have gone wrong.</dd>
+          </div>
+        </dl>
+
+        <a class="button" href="https://virginia.app.box.com/f/3f08f5c219614514b9334b1d73db9c31">Submit your video</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">UVA in Argentina &middot; Global Technology Consulting</div>
+  </footer>
+
+</body>
+</html>
